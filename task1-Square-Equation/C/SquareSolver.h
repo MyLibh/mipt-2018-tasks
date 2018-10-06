@@ -47,7 +47,28 @@ typedef struct tagRoots
 extern "C" {
 #endif /* __cplusplus */
 
+//====================================================================================================================================
+//!
+//! \brief  Solves quadratic equation
+//! 
+//! \param  a  Coefficient at x^2
+//! \param  b  Coefficient at x
+//! \param  c  Free term
+//!
+//! \return  Zero || one(real) || two(real) || two(complex) roots
+//!
+//====================================================================================================================================
+
 ROOTS SolveSquare(ld_t a, ld_t b, ld_t c);
+
+//====================================================================================================================================
+//!
+//! \brief  Prints the roots
+//! 
+//! \param  cpRoots  Result of the 'SolveSquare' function
+//!
+//====================================================================================================================================
+
 void PrintQuadResults(const ROOTS *cpRoots);
 
 #ifdef __cplusplus

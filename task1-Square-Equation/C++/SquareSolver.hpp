@@ -31,6 +31,14 @@ using roots_t       = std::variant<no_roots, real_root, real_roots, complex_root
 
 roots_t SolveSquare(ld_t a, ld_t b, ld_t c) noexcept;
 
+//====================================================================================================================================
+//!
+//! \brief  Prints the roots
+//! 
+//! \param  cpRoots  Result of the 'SolveSquare' function
+//!
+//====================================================================================================================================
+
 void PrintQuadResults(const roots_t &crRoots);
 
 #endif /* __SQUARESOLVER_HPP_INCLUDED__ */
