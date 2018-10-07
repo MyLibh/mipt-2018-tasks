@@ -3,6 +3,10 @@
 #ifndef __SQUARESOLVER_HPP_INCLUDED__
 #define __SQUARESOLVER_HPP_INCLUDED__
 
+#if (_MSVC_LANG < 201703L) 
+#error Must use ISO C++17 Standart
+#endif /* __cplusplus < 201703L */
+
 #include <variant>
 #include <utility>
 #include <complex>
