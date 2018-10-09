@@ -1,3 +1,5 @@
+#define GUARD_LVL 3
+
 #include "Stack.hpp"
 
 #include <iostream> // std::cout, std::cerr

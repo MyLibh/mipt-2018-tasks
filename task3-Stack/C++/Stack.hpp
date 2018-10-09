@@ -17,23 +17,26 @@
 	#error
 #endif /* __cplusplus */
 
-#include <memory>      // std::unique_ptr
-#include <cassert>     // assert
-#include <iomanip>     // std::setw
-#include <string_view> // std::string_view
+#include "Hash.hpp"
+
+#include <memory>      
+#include <cassert> // assert
+#include <iomanip> // std::setw
+#include <string>  
+#include <iostream>
 
 #if   GUARD_LVL == 3
 #define   HASH_GUARD(...) __VA_ARGS__
 #define CANARY_GUARD(...) __VA_ARGS__
-#define  GUARD_CHECK(   ) if(!this->ok()) std::cerr << "[ERROR] "<< __FUNCTION__ << std::endl, this->dump();
+#define  GUARD_CHECK(   ) if(!this->ok()) std::cerr << "[ERROR] "<< __FUNCTION__ << std::endl, this->dump(std::cerr);
 #elif GUARD_LVL == 2
 #define   HASH_GUARD(...) 
 #define CANARY_GUARD(...) __VA_ARGS__
-#define  GUARD_CHECK(   ) if(!this->ok()) std::cerr << "[ERROR] "<< __FUNCTION__ << std::endl, this->dump();
+#define  GUARD_CHECK(   ) if(!this->ok()) std::cerr << "[ERROR] "<< __FUNCTION__ << std::endl, this->dump(std::cerr);
 #elif GUARD_LVL == 1
 #define   HASH_GUARD(...) 
 #define CANARY_GUARD(...) 
-#define  GUARD_CHECK(   ) if(!this->ok()) std::cerr << "[ERROR] "<< __FUNCTION__ << std::endl, this->dump();
+#define  GUARD_CHECK(   ) if(!this->ok()) std::cerr << "[ERROR] "<< __FUNCTION__ << std::endl, this->dump(std::cerr);
 #else
 #define   HASH_GUARD(...)
 #define CANARY_GUARD(...) 
@@ -221,7 +224,7 @@ namespace NStack
 				for (size_t i = 0; i < counter_; ++i) 
 					tmp += std::to_string(buffer_[i]);
 
-				return std::string(NHash::Hash(tmp).getHash());				
+				return std::string(NHash::Hash<>(tmp).getHash());				
 			}
 		)
 
@@ -235,7 +238,7 @@ namespace NStack
 
 	template<typename T>
 	inline Stack<T>::Stack(size_t size /* = DEFAULT_SIZE */) noexcept :
-		CANARY_GUARD(CANARY_VALUE(NHash::Hash("Stack" + std::to_string(++numberOfInstances)).getHash()),)
+		CANARY_GUARD(CANARY_VALUE(NHash::Hash<>("Stack" + std::to_string(++numberOfInstances)).getHash()),)
 		CANARY_GUARD(canaryStart_(CANARY_VALUE),)
 		HASH_GUARD(hash_(),)
 
@@ -499,10 +502,10 @@ namespace NStack
 		try
         {
 			rOstr << "\t[STACK DUMP]" << std::endl;
-		    rOstr << "Stack <" << typeid(T).name() << "> [0x" << this << "]\n"
+		    rOstr << "Stack <" << typeid(T).name() << "> [0x" << this << "]\n" //-V128
 			      << "{\n\tbuffer [" << counter_ << "] = 0x" << buffer_.get() << "\n\t{\n";
 
-		    if (counter_) for (size_t i = 0; i < counter_; ++i) rOstr << "\t\t[" << i << "] = " << std::setw(8) << buffer_[i] << std::endl;
+		    if (counter_) for (size_t i = 0; i < counter_; ++i) rOstr << "\t\t[" << i << "] = " << std::setw(8) << buffer_[i] << std::endl; //-V128
 		    else                                                rOstr << "\t\tempty\n";
 
 		    rOstr << "\t}\n\n";
@@ -512,23 +515,22 @@ namespace NStack
 			    rOstr << "\tCANARY_VALUE  = " << CANARY_VALUE << std::endl;
 
 			    rOstr << "\tCANARY_START  = " << canaryStart_;
-			    if (canaryStart_ == CANARY_VALUE) rOstr << " TRUE ";
-			    else                              rOstr << " FALSE";
+			    if (canaryStart_ == CANARY_VALUE) rOstr << "  TRUE \n";
+			    else                              rOstr << "  FALSE\n";
 
 			    rOstr << "\tCANARY_FINISH = " << canaryFinish_;
-			    if (canaryFinish_ == CANARY_VALUE) rOstr << " TRUE ";
-			    else                               rOstr << " FALSE";
+			    if (canaryFinish_ == CANARY_VALUE) rOstr << "  TRUE \n";
+			    else                               rOstr << "  FALSE\n";
 			    )
 
 		    HASH_GUARD
 		    (
 			    rOstr << "\n\tHASH = " << hash_;		
-			    if (hash_ == makeHash()) rOstr << " TRUE ";
-			    else                     rOstr << " FALSE";
+			    if (hash_ == makeHash()) rOstr << "  TRUE \n";
+			    else                     rOstr << "  FALSE\n";
 		    )
 
 		    rOstr << "}\n";
-
 			rOstr << "\t[   END    ]\n";
         }
         catch(...)
