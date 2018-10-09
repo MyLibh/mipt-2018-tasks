@@ -26,7 +26,7 @@ int main(void)
 
 	TowardTextSort(text4tts, textSize);
 
-	char *pFilepathWithoutStem     = strtok_s(path, ".", &NULL_TOKEN);
+	char *pFilepathWithoutStem      = strtok_s(path, ".", &NULL_TOKEN);
 	char  path4tts[MAX_PATH_LENGTH] = "";
 	strcat_s(path4tts, MAX_PATH_LENGTH, "_toward.");
 	strcat_s(path4tts, MAX_PATH_LENGTH, strtok_s(pFilepathWithoutStem, ".", &NULL_TOKEN));
