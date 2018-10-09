@@ -19,7 +19,7 @@ int main()
 		auto text4tts = text;
 		TowardTextSort(text4tts);
 		// On a non-POSIX system, it is possible that p.stem()+p.extension() != p.filename() even though generic-format versions are the same.
-		if(!Write2File(std::filesystem::path(path).replace_filename(path.stem().concat("_toward").concat(path.extension().c_str())), text4tts))
+		if (!Write2File(std::filesystem::path(path).replace_filename(path.stem().concat("_toward").concat(path.extension().c_str())), text4tts))
 		{
 			std::cerr << "Cannot write to file\n";
 

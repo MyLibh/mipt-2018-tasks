@@ -11,7 +11,7 @@ text_t ReadFile(const std::filesystem::path &crPath)
 	std::ifstream file(crPath);
 	if (!file.is_open())
 	{
-		std::cerr << "Cannot read file\n";
+		std::cerr << "Cannot read the file\n";
 
 		return { };
 	}

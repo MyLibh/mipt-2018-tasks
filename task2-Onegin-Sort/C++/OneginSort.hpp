@@ -18,7 +18,7 @@ using text_t = std::vector<line_t>;
 //! 
 //! \param  crPath  Path to the file
 //!
-//! \return  Array of lines(std::string, ending with '\n')
+//! \return  Array of lines(strings, ending with '\n')
 //!
 //====================================================================================================================================
 
